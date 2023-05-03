@@ -50,11 +50,14 @@ class Catalog:
     def remove_animal(): # Karolis
         pass
 
-    def review_catalog(): # Milda
-        pass
+    def review_catalog(animal_dict): # Milda
+        print("Animal catalog: ")
+        for animal in animal_dict:
+            print(f"{animal}")
 
     def review_by_class(): # Milda
-        pass
+        sorted_by_class = dict(sorted(animal.animals(), key = lambda x: x[1]['animal_class']))
+        print(sorted_by_class)
         
     def review_by_order(): # Milda
         pass
