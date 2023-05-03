@@ -24,19 +24,15 @@ class Catalog:
     animals = []
     total_animals = 0
     
-    # def add_animal(self, animal): 
-    #     self.animals.append(animal)
-    #     self.total_animals += 1
-    
-    def add_animal(): # Karolis
-        pass
+    @property
+    def total_animal(self, animal):
+        return len(animal)
 
-    # def remove_animal(self, animal): 
-    #     self.animals.remove(animal)
-    #     self.total_animals -= 1
-    
-    def remove_animal(): # Karolis
-        pass
+    def add_animal(self, animal):  # Karolis
+        self.animals.append(animal)
+
+    def remove_animal(self, animal): # Karolis
+        self.animals.remove(animal)
 
     def review_catalog(): # Milda
         pass
