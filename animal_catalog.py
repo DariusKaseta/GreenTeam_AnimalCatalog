@@ -3,15 +3,27 @@
 import os
 import json
 
+def save_data (animals):
+    with open ("catalog.json", "w", encoding= "utf-8") as f:
+        json.dump(animals, f)
+
+def load_data():
+    if not os.path.exists("catalog.json"):
+        return []
+    with open ("catalog.json", "r") as f:
+        animals = json.load(f)
+    return animals
+
+
 os.system('cls' if os.name == 'nt' else 'clear')
 
 class Animal:
-    def __init__(self, animal_class, order, family, genus, species):
+    def __init__(self, species_name, animal_class, order, family, genus):
+        self.species = species_name
         self.animal_class = animal_class
         self.order = order
         self.family = family
         self.genus = genus
-        self.species = species
 
     def print_animal_info(self):
         print(f"Class: {self.animal_class}")
