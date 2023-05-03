@@ -32,13 +32,35 @@ def view_animal_list():
             window["Animal Table"].update(values=animal_list)
         elif event == "Remove":
             animal = remove_animals()
-            catalog.remove_animal(animal)
-            animal_list.remove(animal.as_list())
-            window["Animal Table"].update(values=animal_list)
+            if animal is not None:
+                catalog.remove_animal(animal)
+                animal_list.remove(animal.as_list())
+                window["Animal Table"].update(values=animal_list)
     window.close()
 
-# def remove_animals():
-#     view_animal_list()
+def remove_animals():
+    catalog = load_data()
+    animal_list = animal_list = [animal.as_list() for animal in catalog.animals]
+
+    layout = [[sg.Text("Select an animal to remove")],
+              [sg.Listbox(values=animal_list, size=(40, 10), key="Animal Listbox")],
+              [sg.Button("Remove", key="Remove"), sg.Button("Cancel", key="Cancel")]]
+
+    window_remove = sg.Window("Remove Animal", layout)
+
+    while True:
+        event , values = window_remove.read()
+        if event in (None, "Cancel"):
+            window_remove.close()
+            return None
+        elif event == "Remove":
+            selected_animal = window_remove["Animal Listbox"].get()[0]
+            animal = Animal(*selected_animal)
+            catalog.remove_animal(animal)
+            animal_list.remove(selected_animal)
+            window_remove.close()
+            return animal
+
 
 #  while True:
 #         event, values = window.read()
@@ -64,20 +86,23 @@ def add_animals():  #perkelti i virsu.
         [sg.Text("Insert animal Order:"), sg.Input("", key="order")],
         [sg.Text("Insert animal Family:"), sg.Input("", key= "family")],
         [sg.Text("Insert animal Genus:"), sg.Input("", key="genus")],
-        [sg.Button('Approve', key="Approve")]]
+        [sg.Text("Insert animal Image:"), sg.InputText(key="image_path"), sg.FileBrowse()],
+        [sg.Button("Approve", key="Approve"), sg.Button("Cancel", key="Cancel")]]
     
     
-    window_add = sg.Window("Main Window", layout) #pakeisti window pavadinima
+    window_add = sg.Window("Add Animal", layout)
 
     # Pridejimo lango veiksmo gaudymas
     while True:
         event, values = window_add.read()
-        if event in (None, "Exit"):
-            break
+        if event in (None, "Cancel"):
+            window_add.close()
+            return None
         elif event == "Approve":
             print(values["species"])
             try:
                 animal = Animal(values["species"], values["class"], values["order"], values["family"], values["genus"])
+                animal.image_path = values["image_path"]
             except:
                 pass
             else:

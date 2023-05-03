@@ -1,5 +1,3 @@
-# kelios def aprasytos ir uzkomentuotos (nebutinai gali buti teisinga)
-
 import os
 import pickle
 
@@ -75,25 +73,5 @@ class Catalog:
     def total_animals_added(self): # Darius
         return self.total_animals
         
-    
-    # def save_in_json(self, filename):
-    #     animal_list = []
-        
-    #     for animal in self.animals:
-    #         animal_dict = {
-    #             "animal_class": animal.animal_class,
-    #             "order": animal.order,
-    #             "family": animal.family,
-    #             "genus": animal.genus,
-    #             "species": animal.species
-    #         }
-    #         animal_list.append(animal_dict)
 
-    #     with open(filename, "a") as file:
-    #         json.dump(animal_list, file)
-        
-
-
-
-# Petras - save in json
 
