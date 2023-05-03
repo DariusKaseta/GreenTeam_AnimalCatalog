@@ -13,8 +13,9 @@ def view_animal_list():
     layout = [[sg.Text("Animal List")],
               [sg.Table(values=animal_list, headings=["Species", "Class", "Order", "Family", "Genus"], max_col_width=25,
                         auto_size_columns=True, justification="left", key="Animal Table")],
-              [sg.Button("Close", key="Close"), sg.Button('Add new animal', key="Add new animal")],
-              [sg.Button("Save", key="Save")]]
+              [sg.Button('Add new animal', key="Add new animal"), sg.Button("Remove", key="Remove")],
+              [sg.Button("Save", key="Save"), sg.Button("Close", key="Close")]]
+    
     window = sg.Window("Animal List", layout)
 
     # Lango atidarymas
@@ -29,7 +30,31 @@ def view_animal_list():
             catalog.add_animal(animal)
             animal_list.append(animal.as_list())
             window["Animal Table"].update(values=animal_list)
+        elif event == "Remove":
+            animal = remove_animals()
+            catalog.remove_animal(animal)
+            animal_list.remove(animal.as_list())
+            window["Animal Table"].update(values=animal_list)
     window.close()
+
+# def remove_animals():
+#     view_animal_list()
+
+#  while True:
+#         event, values = window.read()
+#         print(values)
+#         if event in (None, "Close"):
+#             break
+#         elif event == "Save":
+#             save_data(catalog)
+#         elif event == "Add new animal":
+#             animal = add_animals()
+#             catalog.add_animal(animal)
+#             animal_list.append(animal.as_list())
+#             window["Animal Table"].update(values=animal_list)
+#         elif event == "Remove":
+#             pass
+#     window.close()
 
 # Pradinio lango kūrimas
 def add_animals():  #perkelti i virsu.
@@ -40,6 +65,7 @@ def add_animals():  #perkelti i virsu.
         [sg.Text("Insert animal Family:"), sg.Input("", key= "family")],
         [sg.Text("Insert animal Genus:"), sg.Input("", key="genus")],
         [sg.Button('Approve', key="Approve")]]
+    
     
     window_add = sg.Window("Main Window", layout) #pakeisti window pavadinima
 
