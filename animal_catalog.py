@@ -51,7 +51,7 @@ class Catalog:
         for animal in animal_dict:
             print(f"{animal}")
 
-    def review_by_class(): # Milda
+    def review_by_class(self, animal): # Milda
         sorted_by_class = dict(sorted(animal.animals(), key = lambda x: x[1]['animal_class']))
         print(sorted_by_class)
         
@@ -91,3 +91,4 @@ class Catalog:
 
 
 # Petras - save in json
+
