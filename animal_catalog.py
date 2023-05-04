@@ -48,7 +48,10 @@ class Catalog:
 
     def remove_animal(self, animal): # Karolis
         self.animals.remove(animal)
-
+    
+    def get_animal(self, id):
+        return self.animals[id]
+    
     # def review_catalog(animal_dict): # Milda
     #     print("Animal catalog: ")
     #     for animal in animal_dict:
