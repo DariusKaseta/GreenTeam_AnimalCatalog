@@ -34,9 +34,10 @@ def view_animal_list():
             save_data(catalog)
         elif event == "Add new animal":
             animal = add_animals()
-            catalog.add_animal(animal)
-            animal_list.append(animal.as_list())
-            window["Animal Table"].update(values=animal_list)
+            if animal is not None:
+                catalog.add_animal(animal)
+                animal_list.append(animal.as_list())
+                window["Animal Table"].update(values=animal_list)
         elif event == "Remove":
             animal_list = remove_animals(catalog)
             window["Animal Table"].update(values=animal_list)
@@ -113,6 +114,7 @@ def add_animals():  #perkelti i virsu.
             else:
                 window_add.close()
                 return animal
+            window_add.close()
 
 
 if __name__ == "__main__":
