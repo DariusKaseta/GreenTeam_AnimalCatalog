@@ -1,17 +1,22 @@
 import PySimpleGUI as sg
 from animal_catalog import Animal, Catalog, save_data, load_data
 
+def get_animal_list(animals):
+    animal_list = []
+    for id, animal in enumerate(animals):
+        animal_ = animal.as_list()
+        animal_.insert(0, id)
+        animal_list.append(animal_)
+    return animal_list
 
 # Ši funkcija atvaizduoja gyvūnų sąrašą
 def view_animal_list():
     catalog = load_data()
-    # Sukurkite savo gyvūnų sąrašo elementus čia
-    #
-    animal_list = [animal.as_list() for animal in catalog.animals]
+    animal_list = get_animal_list(catalog.animals)
 
     # Naujo lango kūrimas
     layout = [[sg.Text("Animal List")],
-              [sg.Table(values=animal_list, headings=["Species", "Class", "Order", "Family", "Genus"], max_col_width=25,
+              [sg.Table(values=animal_list, headings=["ID", "Species", "Class", "Order", "Family", "Genus"], max_col_width=25,
                         auto_size_columns=True, justification="left", key="Animal Table")],
               [sg.Button('Add new animal', key="Add new animal"), sg.Button("Remove", key="Remove")],
               [sg.Button("Save", key="Save"), sg.Button("Close", key="Close")]]
@@ -19,6 +24,8 @@ def view_animal_list():
     window = sg.Window("Animal List", layout)
 
     # Lango atidarymas
+
+    table = window["Animal Table"]
     while True:
         event, values = window.read()
         if event in (None, "Close"):
@@ -31,16 +38,14 @@ def view_animal_list():
             animal_list.append(animal.as_list())
             window["Animal Table"].update(values=animal_list)
         elif event == "Remove":
-            animal = remove_animals()
-            if animal is not None:
-                catalog.remove_animal(animal)
-                animal_list.remove(animal.as_list())
-                window["Animal Table"].update(values=animal_list)
+            animal_list = remove_animals(catalog)
+            window["Animal Table"].update(values=animal_list)
+            save_data(catalog)
     window.close()
 
-def remove_animals():
-    catalog = load_data()
-    animal_list = animal_list = [animal.as_list() for animal in catalog.animals]
+def remove_animals(catalog):
+    animal_list = get_animal_list(catalog.animals)
+
 
     layout = [[sg.Text("Select an animal to remove")],
               [sg.Listbox(values=animal_list, size=(40, 10), key="Animal Listbox")],
@@ -49,17 +54,17 @@ def remove_animals():
     window_remove = sg.Window("Remove Animal", layout)
 
     while True:
-        event , values = window_remove.read()
+        event, values = window_remove.read()
         if event in (None, "Cancel"):
             window_remove.close()
             return None
         elif event == "Remove":
             selected_animal = window_remove["Animal Listbox"].get()[0]
-            animal = Animal(*selected_animal)
+            animal = catalog.get_animal(selected_animal[0])
             catalog.remove_animal(animal)
             animal_list.remove(selected_animal)
             window_remove.close()
-            return animal
+            return animal_list
 
 
 #  while True:
