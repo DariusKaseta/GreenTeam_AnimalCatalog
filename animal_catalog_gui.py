@@ -39,12 +39,21 @@ def view_animal_list():
                 animal_list.append(animal.as_list())
                 table.update(values=animal_list)
         elif event == "Remove":
-            selected_row = table.SelectedRows[0]
-            selected_animal = catalog.get_animal(selected_row)
-            catalog.remove_animal(selected_animal)
-            animal_list = get_animal_list(catalog.animals)
-            table.update(values=animal_list)
-            save_data(catalog)
+            selected_rows = table.SelectedRows
+            if selected_rows:
+                selected_row = selected_rows[0]
+                selected_animal = catalog.get_animal(selected_row)
+                catalog.remove_animal(selected_animal)
+                animal_list = get_animal_list(catalog.animals)
+                table.update(values=animal_list)
+                save_data(catalog)
+        # elif event == "Remove":
+        #     selected_row = table.SelectedRows[0]
+        #     selected_animal = catalog.get_animal(selected_row)
+        #     catalog.remove_animal(selected_animal)
+        #     animal_list = get_animal_list(catalog.animals)
+        #     table.update(values=animal_list)
+        #     save_data(catalog)
     window.close()
 
 
