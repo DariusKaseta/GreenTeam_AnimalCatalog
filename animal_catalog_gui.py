@@ -1,6 +1,8 @@
 import PySimpleGUI as sg
 from animal_catalog import Animal, Catalog, save_data, load_data
-
+import io
+import os
+from PIL import Image
 
 def get_animal_list(animals):
     animal_list = []
@@ -18,8 +20,10 @@ def view_animal_list():
     layout = [[sg.Text("Animal List")],
                 [sg.Table(values=animal_list, headings=[ "Species", "Class", "Order", "Family", "Genus"], max_col_width=25,
                             auto_size_columns=True, justification="left", key="Animal Table")],
-                [sg.Button('Add new animal', key="Add new animal"), sg.Button("Remove", key="Remove")],
-                [sg.Button("Save", key="Save"), sg.Button("Close", key="Close")]]
+                [sg.Button('Add new animal', key="Add new animal"), sg.Button("Remove", key="Remove"),
+                 sg.Button("View animal image", key="View animal image")],
+                [sg.Button("Save", key="Save"), sg.Button("Close", key="Close")],
+                [sg.Image(key="-IMAGE-")]]
         
     
     window = sg.Window("Animal List", layout)
@@ -47,6 +51,35 @@ def view_animal_list():
                 animal_list = get_animal_list(catalog.animals)
                 table.update(values=animal_list)
                 save_data(catalog)
+        elif event == "View animal image":
+            selected_row = table.SelectedRows[0]
+            animal = catalog.get_animal(selected_row)
+            image_path = animal.image_path
+            if image_path:
+                image = Image.open(image_path)
+                image.thumbnail((400, 400))
+                bio = io.BytesIO()
+                # Actually store the image in memory in binary
+                image.save(bio, format="PNG")
+                # Use that image data in order to 
+                window["-IMAGE-"].update(data=bio.getvalue())
+
+
+
+            # selected_animal = table.SelectedRows[0]
+            # animal = catalog.get_animal(selected_animal[0])
+            # image_path = animal.image_path
+            # if image_path:
+            #     image = sg.Image(image_path)
+            #     sg.Window('Image Viewer', [[image]])
+
+        
+        
+        
+        
+        
+        
+        
         # elif event == "Remove":
         #     selected_row = table.SelectedRows[0]
         #     selected_animal = catalog.get_animal(selected_row)
@@ -78,8 +111,7 @@ def add_animals():
             return None
         elif event == "Approve":
             try:
-                animal = Animal(values["species"], values["class"], values["order"], values["family"], values["genus"])
-                animal.image_path = values["image_path"]
+                animal = Animal(values["species"], values["class"], values["order"], values["family"], values["genus"], values["image_path"])
             except:
                 pass
             else:

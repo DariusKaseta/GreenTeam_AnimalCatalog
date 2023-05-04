@@ -18,12 +18,13 @@ def load_data():
 # os.system('cls' if os.name == 'nt' else 'clear')
 
 class Animal:
-    def __init__(self, species_name, animal_class, order, family, genus):
+    def __init__(self, species_name, animal_class, order, family, genus, image_path=""):
         self.species = species_name
         self.animal_class = animal_class
         self.order = order
         self.family = family
         self.genus = genus
+        self.image_path = image_path
 
     def print_animal_info(self):
         print(f"Class: {self.animal_class}")
@@ -33,7 +34,7 @@ class Animal:
         print(f"Species: {self.species}\n")
 
     def as_list(self): #isideti kaip duomenis "animal"is gui
-        return [self.species, self.animal_class, self.order, self.family, self.genus]
+        return [self.species, self.animal_class, self.order, self.family, self.genus, self.image_path]
 
 
 class Catalog: 
