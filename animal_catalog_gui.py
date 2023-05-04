@@ -63,7 +63,9 @@ def view_animal_list():
                 image.save(bio, format="PNG")
                 # Use that image data in order to 
                 window["-IMAGE-"].update(data=bio.getvalue())
- 
+
+
+
             # selected_animal = table.SelectedRows[0]
             # animal = catalog.get_animal(selected_animal[0])
             # image_path = animal.image_path
