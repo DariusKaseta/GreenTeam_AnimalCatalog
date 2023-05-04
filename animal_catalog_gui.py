@@ -63,6 +63,8 @@ def view_animal_list():
                 image.save(bio, format="PNG")
                 # Use that image data in order to 
                 window["-IMAGE-"].update(data=bio.getvalue())
+            else:
+                window["-IMAGE-"].update(data=None)
 
 
 
