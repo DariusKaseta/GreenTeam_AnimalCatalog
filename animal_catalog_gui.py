@@ -3,6 +3,20 @@ from animal_catalog import Animal, Catalog, save_data, load_data
 import io
 import os
 from PIL import Image
+import logging
+
+def loginimas(logging_info, animal_catalog):    
+    logging_info = logging.getLogger("logging_info")
+    logging_info.setLevel(logging.INFO)
+    logging_handler = logging.FileHandler("animal_catalog.txt")
+    logging_formatter = logging.Formatter('%(asctime)s - %(message)s')
+    logging_handler.setFormatter(logging_formatter)
+    logging_info.addHandler(logging_handler)
+
+    return logging_info
+
+
+
 
 def get_animal_list(animals):
     animal_list = []
@@ -36,6 +50,7 @@ def view_animal_list():
             break
         elif event == "Save":
             save_data(catalog)
+            loginimas()
         elif event == "Add new animal":
             animal = add_animals()
             if animal is not None:

@@ -94,6 +94,13 @@ class AnimalCatalogGui:
                 else:
                     window_add.close()
                     return animal
+                
+
+
+
+
+
+
 
 
 

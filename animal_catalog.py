@@ -1,6 +1,7 @@
 import os
 import pickle
 
+
 def save_data(catalog):
     if isinstance(catalog, Catalog):
         with open("catalog.pickle", "wb") as f:
