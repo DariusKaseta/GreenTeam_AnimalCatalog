@@ -52,45 +52,21 @@ def view_animal_list():
                 table.update(values=animal_list)
                 save_data(catalog)
         elif event == "View animal image":
-            selected_row = table.SelectedRows[0]
-            animal = catalog.get_animal(selected_row)
-            image_path = animal.image_path
-            if image_path:
-                image = Image.open(image_path)
-                image.thumbnail((400, 400))
-                bio = io.BytesIO()
-                # Actually store the image in memory in binary
-                image.save(bio, format="PNG")
-                # Use that image data in order to 
-                window["-IMAGE-"].update(data=bio.getvalue())
-            else:
-                window["-IMAGE-"].update(data=None)
+            selected_rows = table.SelectedRows
+            if selected_rows:
+                selected_row = selected_rows[0]
+                animal = catalog.get_animal(selected_row)
+                image_path = animal.image_path
+                if image_path:
+                    image = Image.open(image_path)
+                    image.thumbnail((400, 400))
+                    bio = io.BytesIO()
+                    image.save(bio, format="PNG")
+                    window["-IMAGE-"].update(data=bio.getvalue())
+                else:
+                    window["-IMAGE-"].update(data=None)
 
-
-
-            # selected_animal = table.SelectedRows[0]
-            # animal = catalog.get_animal(selected_animal[0])
-            # image_path = animal.image_path
-            # if image_path:
-            #     image = sg.Image(image_path)
-            #     sg.Window('Image Viewer', [[image]])
-
-        
-        
-        
-        
-        
-        
-        
-        # elif event == "Remove":
-        #     selected_row = table.SelectedRows[0]
-        #     selected_animal = catalog.get_animal(selected_row)
-        #     catalog.remove_animal(selected_animal)
-        #     animal_list = get_animal_list(catalog.animals)
-        #     table.update(values=animal_list)
-        #     save_data(catalog)
     window.close()
-
 
 def add_animals():
     layout = [
